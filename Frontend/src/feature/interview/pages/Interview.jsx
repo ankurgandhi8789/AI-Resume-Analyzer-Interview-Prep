@@ -19,7 +19,7 @@ const QuestionCard = ({ item, index }) => {
                 className="flex items-center justify-between cursor-pointer p-4"
             >
                 <div className="flex items-center gap-3">
-                    <span className="text-indigo-400 font-semibold">
+                    <span className="text-pink-400 font-semibold">
                         Q{index + 1}
                     </span>
                     <p className="text-gray-200">{item.question}</p>
@@ -54,7 +54,7 @@ const QuestionCard = ({ item, index }) => {
 const RoadMapDay = ({ day }) => (
     <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-4">
         <div className="flex items-center gap-3 mb-3">
-            <span className="bg-indigo-600 text-xs px-2 py-1 rounded">
+            <span className="bg-pink-600 text-xs px-2 py-1 rounded">
                 Day {day.day}
             </span>
             <h3 className="font-semibold text-gray-200">{day.focus}</h3>
@@ -63,7 +63,7 @@ const RoadMapDay = ({ day }) => (
         <ul className="space-y-2">
             {day.tasks.map((task, i) => (
                 <li key={i} className="flex items-start gap-2 text-gray-300 text-sm">
-                    <span className="w-2 h-2 bg-indigo-500 rounded-full mt-2"></span>
+                    <span className="w-2 h-2 bg-pink-500 rounded-full mt-2"></span>
                     {task}
                 </li>
             ))}
@@ -99,12 +99,12 @@ const Interview = () => {
                 : "text-red-400"
 
     return (
-        <div className="min-h-screen bg-gray-950 text-gray-200 p-6">
+        <div className="min-h-screen bg-[#1c1c1c] text-gray-200 p-6">
 
             <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6">
 
                 {/* LEFT NAV */}
-                <nav className="col-span-2 bg-gray-900 border border-gray-800 rounded-lg p-4 h-fit">
+                <nav className="col-span-2  border border-gray-800 rounded-lg p-4 h-fit">
 
                     <p className="text-xs text-gray-400 mb-4">Sections</p>
 
@@ -115,7 +115,7 @@ const Interview = () => {
                                 onClick={() => setActiveNav(item.id)}
                                 className={`text-left px-3 py-2 rounded-md text-sm
                                 ${activeNav === item.id
-                                        ? "bg-indigo-600 text-white"
+                                        ? "bg-pink-600 text-white"
                                         : "hover:bg-gray-800 text-gray-300"}`}
                             >
                                 {item.label}
@@ -125,7 +125,7 @@ const Interview = () => {
 
                     <button
                         onClick={() => getResumePdf(interviewId)}
-                        className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-sm py-2 rounded-md"
+                        className="mt-6 w-full bg-pink-600 hover:bg-pink-700 text-sm py-2 rounded-md"
                     >
                         Download Resume
                     </button>

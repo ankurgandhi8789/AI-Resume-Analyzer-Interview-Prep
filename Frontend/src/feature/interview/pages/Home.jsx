@@ -28,12 +28,12 @@ const Home = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-950 text-gray-200 px-6 py-10">
+        <div className="min-h-screen  text-gray-200 px-6 py-10">
 
             {/* Header */}
             <header className="text-center mb-10">
                 <h1 className="text-4xl font-bold">
-                    Create Your Custom <span className="text-indigo-400">Interview Plan</span>
+                    Create Your Custom <span className="text-pink-600">Interview Plan</span>
                 </h1>
                 <p className="text-gray-400 mt-3">
                     Let AI analyze the job requirements and your profile to build a winning strategy.
@@ -41,7 +41,7 @@ const Home = () => {
             </header>
 
             {/* Main Card */}
-            <div className="max-w-6xl mx-auto bg-gray-900 rounded-xl shadow-lg border border-gray-800">
+            <div className="max-w-6xl mx-auto bg-[#1c1c1c] rounded-xl shadow-lg border-2 border-gray-800">
 
                 <div className="grid md:grid-cols-2 gap-6 p-6">
 
@@ -56,7 +56,7 @@ const Home = () => {
 
                         <textarea
                             onChange={(e) => setJobDescription(e.target.value)}
-                            className="w-full h-64 bg-gray-800 border border-gray-700 rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="w-full h-64  border border-gray-700 rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder={`Paste the full job description here...
 e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
                         />
@@ -82,7 +82,7 @@ e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
 
                             <label
                                 htmlFor="resume"
-                                className="flex flex-col items-center justify-center border-2 border-dashed border-gray-700 rounded-lg p-6 cursor-pointer hover:border-indigo-500 transition"
+                                className="flex flex-col items-center justify-center border-2 border-dashed border-gray-700 rounded-lg p-6 cursor-pointer hover:border-pink-500 transition"
                             >
                                 <p className="text-sm text-gray-300">
                                     Click to upload or drag & drop
@@ -102,11 +102,11 @@ e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
                         </div>
 
                         {/* OR Divider */}
-                        <div className="flex items-center gap-3 mb-6">
+                        {/* <div className="flex items-center gap-3 mb-6">
                             <div className="flex-1 h-px bg-gray-700"></div>
                             <span className="text-xs text-gray-400">OR</span>
                             <div className="flex-1 h-px bg-gray-700"></div>
-                        </div>
+                        </div> */}
 
                         {/* Self Description */}
                         <div>
@@ -116,14 +116,14 @@ e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
 
                             <textarea
                                 onChange={(e) => setSelfDescription(e.target.value)}
-                                className="w-full h-28 bg-gray-800 border border-gray-700 rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full h-28  border border-gray-700 rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 placeholder="Describe your experience, skills, and years of experience..."
                             />
                         </div>
 
                         {/* Info Box */}
-                        <div className="mt-4 bg-gray-800 border border-gray-700 rounded-lg p-3 text-sm text-gray-400">
-                            Either a <strong>Resume</strong> or a <strong>Self Description</strong> is required.
+                        <div className="mt-4  border border-gray-700 rounded-lg p-3 text-sm text-gray-400">
+                            Every entries <strong>Resume</strong> , <strong>Job Description</strong> , <strong>Self Description</strong> are required.
                         </div>
 
                     </div>
@@ -139,7 +139,7 @@ e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
 
                     <button
                         onClick={handleGenerateReport}
-                        className="bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded-lg text-sm font-semibold flex items-center gap-2"
+                        className="bg-pink-600 hover:bg-pink-700 transition px-6 py-3 rounded-lg text-sm font-semibold flex items-center gap-2"
                     >
                         Generate My Interview Strategy
                     </button>
@@ -160,7 +160,7 @@ e.g. 'Senior Frontend Engineer at Google requires proficiency in React...'`}
                             <li
                                 key={report._id}
                                 onClick={() => navigate(`/interview/${report._id}`)}
-                                className="bg-gray-900 border border-gray-800 rounded-lg p-4 cursor-pointer hover:border-indigo-500 transition"
+                                className=" border bg-[#1c1c1c] border-gray-800 rounded-lg p-4 cursor-pointer hover:border-indigo-500 transition"
                             >
                                 <h3 className="font-medium mb-2">
                                     {report.title || 'Untitled Position'}
