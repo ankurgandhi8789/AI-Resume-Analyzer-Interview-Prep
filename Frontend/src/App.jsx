@@ -1,19 +1,22 @@
-import { RouterProvider } from "react-router";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-import { router } from "./app.routes.jsx";
-import { AuthProvider } from "./feature/auth/auth.context.jsx";
-import { InterviewProvider } from "./feature/interview/interview.context.jsx";
-
-function App() {
+export default function App() {
   return (
-    <>
-      <AuthProvider>
-        <InterviewProvider>
-          <RouterProvider router={router} />
-        </InterviewProvider>
-      </AuthProvider>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
-
-export default App;
