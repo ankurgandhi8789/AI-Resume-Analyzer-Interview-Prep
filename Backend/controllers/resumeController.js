@@ -1,10 +1,18 @@
 import { extractResumeText } from "../services/resumeParser.js";
 import { runResumeAnalysisStream, runInterviewQuestions, runAnswerGeneration } from "../services/analysisGraph.js";
+import { getDbConnection } from "../config/db.js";
 import Analysis from "../models/Analysis.js";
 
 // POST /api/resume/analyze  — SSE stream, sections arrive one by one
 export const analyzeResume = async (req, res) => {
   try {
+    const db = getDbConnection();
+    if (!db) {
+      res.write(`event: error\ndata: ${JSON.stringify({ message: "Service unavailable - database not connected" })}\n\n`);
+      res.end();
+      return;
+    }
+
     if (!req.file) return res.status(400).json({ message: "No resume file uploaded" });
 
     const resumeText = await extractResumeText(req.file);
@@ -52,6 +60,11 @@ export const analyzeResume = async (req, res) => {
 // POST /api/resume/:id/questions
 export const generateQuestions = async (req, res) => {
   try {
+    const db = getDbConnection();
+    if (!db) {
+      return res.status(503).json({ message: "Service unavailable - database not connected" });
+    }
+
     const analysis = await Analysis.findOne({ _id: req.params.id, user: req.user._id });
     if (!analysis) return res.status(404).json({ message: "Analysis not found" });
 
@@ -73,6 +86,11 @@ export const generateQuestions = async (req, res) => {
 // POST /api/resume/:id/answer
 export const generateAnswer = async (req, res) => {
   try {
+    const db = getDbConnection();
+    if (!db) {
+      return res.status(503).json({ message: "Service unavailable - database not connected" });
+    }
+
     const { question, category, questionIndex } = req.body;
     if (!question) return res.status(400).json({ message: "question is required" });
 
@@ -102,6 +120,11 @@ export const generateAnswer = async (req, res) => {
 // DELETE /api/resume/:id
 export const deleteAnalysis = async (req, res) => {
   try {
+    const db = getDbConnection();
+    if (!db) {
+      return res.status(503).json({ message: "Service unavailable - database not connected" });
+    }
+
     const deleted = await Analysis.findOneAndDelete({ _id: req.params.id, user: req.user._id });
     if (!deleted) return res.status(404).json({ message: "Analysis not found" });
     res.json({ message: "Deleted" });
@@ -112,6 +135,11 @@ export const deleteAnalysis = async (req, res) => {
 
 // GET /api/resume/history
 export const getHistory = async (req, res) => {
+  const db = getDbConnection();
+  if (!db) {
+    return res.status(503).json({ message: "Service unavailable - database not connected" });
+  }
+
   const analyses = await Analysis.find({ user: req.user._id })
     .sort({ createdAt: -1 })
     .select("-resumeText");
@@ -120,6 +148,11 @@ export const getHistory = async (req, res) => {
 
 // GET /api/resume/:id
 export const getAnalysisById = async (req, res) => {
+  const db = getDbConnection();
+  if (!db) {
+    return res.status(503).json({ message: "Service unavailable - database not connected" });
+  }
+
   const analysis = await Analysis.findOne({ _id: req.params.id, user: req.user._id });
   if (!analysis) return res.status(404).json({ message: "Analysis not found" });
   res.json({ analysis });

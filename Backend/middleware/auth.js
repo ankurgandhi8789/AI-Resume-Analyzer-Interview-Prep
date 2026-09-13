@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { getDbConnection } from "../config/db.js";
 import User from "../models/User.js";
 
 export const protect = async (req, res, next) => {
@@ -10,6 +11,11 @@ export const protect = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const db = getDbConnection();
+    if (!db) {
+      return res.status(503).json({ message: "Service unavailable - database not connected" });
+    }
 
     const user = await User.findById(decoded.id).select("-__v");
     if (!user) {

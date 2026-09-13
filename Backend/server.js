@@ -5,13 +5,15 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 
-import { connectDB } from "./config/db.js";
+import { connectDB, getDbConnection } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 
 const app = express();
 
-connectDB();
+// DB connection will be lazy - only established when needed
+// This prevents Vercel timeouts during cold starts
+connectDB().catch(() => {}); // Fire and forget, don't block
 
 app.use(helmet({ crossOriginOpenerPolicy: false }));
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173", credentials: true }));
@@ -31,5 +33,4 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || "Server error" });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+export default app;

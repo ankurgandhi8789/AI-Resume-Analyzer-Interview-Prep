@@ -11,18 +11,29 @@ import {
 } from "../utils/prompts.js";
 
 const parseJSON = (raw) => {
+  if (!raw) return {};
   const cleaned = String(raw).trim()
     .replace(/^```json/i, "").replace(/^```/, "").replace(/```$/, "").trim();
-  return JSON.parse(cleaned);
+  try {
+    return JSON.parse(cleaned);
+  } catch (e) {
+    console.warn("Failed to parse JSON response:", cleaned);
+    return {};
+  }
 };
 
 const llmCall = async (systemPrompt, userPrompt) => {
   const model = getChatModel();
-  const res = await model.invoke([
-    new SystemMessage(systemPrompt),
-    new HumanMessage(userPrompt),
-  ]);
-  return parseJSON(res.content);
+  try {
+    const res = await model.invoke([
+      new SystemMessage(systemPrompt),
+      new HumanMessage(userPrompt),
+    ]);
+    return parseJSON(res.content);
+  } catch (error) {
+    console.error("LLM call error:", error);
+    throw error;
+  }
 };
 
 /**

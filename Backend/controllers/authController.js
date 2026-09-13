@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { getDbConnection } from "../config/db.js";
 import User from "../models/User.js";
 import { verifyGoogleToken } from "../config/googleClient.js";
 
@@ -10,6 +11,11 @@ const signToken = (userId) =>
 // POST /api/auth/google  { credential }  <- @react-oauth/google ID token
 export const googleLogin = async (req, res) => {
   try {
+    const db = getDbConnection();
+    if (!db) {
+      return res.status(503).json({ message: "Service unavailable - database not connected" });
+    }
+
     const { credential } = req.body;
     if (!credential) {
       return res.status(400).json({ message: "Missing Google credential" });

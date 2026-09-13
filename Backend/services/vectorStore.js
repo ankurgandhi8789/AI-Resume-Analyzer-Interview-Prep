@@ -12,11 +12,17 @@ let vectorStorePromise = null;
  * app doesn't need to change.
  */
 const buildVectorStore = async () => {
-  const embeddings = getEmbeddingsModel();
-  const docs = ROLE_KNOWLEDGE_DOCS.map(
-    (d) => new Document({ pageContent: d.text, metadata: { role: d.role } })
-  );
-  return MemoryVectorStore.fromDocuments(docs, embeddings);
+  try {
+    const embeddings = getEmbeddingsModel();
+    const docs = ROLE_KNOWLEDGE_DOCS.map(
+      (d) => new Document({ pageContent: d.text, metadata: { role: d.role } })
+    );
+    return await MemoryVectorStore.fromDocuments(docs, embeddings);
+  } catch (error) {
+    console.error("Vector store build error:", error);
+    // Return empty store if embeddings fail
+    return MemoryVectorStore.fromDocuments([]);
+  }
 };
 
 export const getVectorStore = () => {
@@ -36,7 +42,7 @@ export const retrieveRoleContext = async (query, k = 2) => {
     const results = await store.similaritySearch(query, k);
     return results.map((r) => r.pageContent).join("\n\n");
   } catch (err) {
-    console.warn("RAG retrieval skipped (embeddings unavailable):", err.message);
+    console.warn("RAG retrieval skipped:", err.message);
     return "";
   }
 };
